@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzit.model.Employees">
+    <select id="selectInfo" resultType="com.xzit.model.Employees">
+        select *
+        from employees
+        where addr like "江苏省%"
+    </select>
+    <select id="selectAvg" resultType="com.xzit.model.Employees">
+        SELECT AVG(sal) AS avg_salary
+        FROM employees
+        WHERE addr LIKE '吉林省%';
+    </select>
+    <update id="updateInfo" parameterType="com.xzit.model.Employees">
+        UPDATE employees
+        SET job = '销售经理'
+        WHERE age > 30 AND job = '销售员';
+    </update>
+    <delete id="deleteStaff" parameterType="string">
+        DELETE FROM employees WHERE age > 35;
+    </delete>
+</mapper>
