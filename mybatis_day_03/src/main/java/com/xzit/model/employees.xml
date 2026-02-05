@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzit.model.Employees">
+    <insert id="insert" parameterType="com.xzit.model.Employees">
+        insert into employees values (null,#{name},#{addr},#{age},#{job}.#{sal})
+    </insert>
+    <delete id="delete" parameterType="com.xzit.model.Employees">
+        DELETE FROM employees
+        WHERE id = #{id}
+    </delete>
+    <update id="update" parameterType="com.xzit.model.Employees">
+        UPDATE employees
+        set name=#{name},
+            addr=#{addr},
+            age=#{age},
+            job=#{job},
+            sal=#{sal}
+        where id = #{id}
+    </update>
+    <select id="selectList" resultType="com.xzit.model.Employees">
+        SELECT * FROM employees
+    </select>
+    <select id="selectById" parameterType="int" resultType="com.xzit.model.Employees">
+        SELECT * FROM employees
+        WHERE id = #{id}
+    </select>
+</mapper>
