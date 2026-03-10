@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzit.mapper.EmployeeMapper">
+    <select id="selectCondition" parameterType="com.xzit.model.Employee" resultType="com.xzit.model.Employee">
+        <bind name="condition" value="'%'+addr+'%'"/>
+        select * from employee
+        <where>
+            <if test="addr!=null and addr !=''">
+                and addr like #{condition}
+            </if>
+        </where>
+    </select>
+    <select id="countSalary" parameterType="com.xzit.model.Employee" resultType="double">
+        select AVG(sal) from employee
+        <where>
+            <if test="addr!=null and addr!=''">
+                and addr like concat('%', #{addr}, '%')
+            </if>
+        </where>
+    </select>
+    <update id="update" parameterType="com.xzit.model.Employee">
+        UPDATE employee
+        <set>
+            <!-- 动态更新工资：仅当sal不为null且不为0时更新 -->
+            <if test="sal!=null and sal !=0">
+                sal = #{sal},
+            </if>
+            <!-- 动态更新职务：仅当position不为null且不为空字符串时更新 -->
+            <if test="job!=null and job!=''">
+                job = #{job},
+            </if>
+        </set>
+        <!-- 条件：仅更新指定城市的员工（addr模糊匹配） -->
+        <where>
+            <if test="addr!=null and addr!=''">
+                addr like concat('%', #{addr}, '%')
+            </if>
+        </where>
+    </update>
+    <delete id="delteCheck">
+        delete from employee
+        <where>
+            <foreach collection="array" item="id" open=" and id in(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </delete>
+</mapper>
