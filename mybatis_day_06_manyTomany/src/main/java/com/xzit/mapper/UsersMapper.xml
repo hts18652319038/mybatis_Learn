@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzit.mapper.UsersMapper">
+    <resultMap id="usersQuery" type="Users" autoMapping="true">
+        <id column="uid" property="uid"></id>
+        <collection property="roles" ofType="Role" autoMapping="true"></collection>
+    </resultMap>
+    <select id="selectList" resultMap="usersQuery">
+        SELECT
+            u.*,
+            r.*
+        FROM
+            users u,
+            role r,
+            users_role ur
+        WHERE
+            u.uid = ur.uid
+          AND ur.uid = r.rid
+    </select>
+    <select id="login" resultMap="usersQuery" parameterType="Users">
+        SELECT
+            u.*,
+            r.*
+        FROM
+            users u,
+            role r,
+            users_role ur
+        WHERE
+            u.uid = ur.uid
+          AND ur.uid = r.rid
+          AND u.uname = #{uname}
+          AND u.pwd = #{pwd}
+    </select>
+    <delete id="delete" parameterType="int">
+        delete from role where rid=#{rid}
+    </delete>
+    <delete id="deleteUser" parameterType="int">
+        delete from users where uid=#{uid}
+    </delete>
+</mapper>
