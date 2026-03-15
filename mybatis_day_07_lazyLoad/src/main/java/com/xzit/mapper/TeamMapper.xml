@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzit.mapper.TeamMapper">
+    <select id="selectById" resultType="team" parameterType="int">
+        select * from team where tid=#{tid}
+    </select>
+    <resultMap id="z" type="team" autoMapping="true">
+        <collection property="players" column="tid" ofType="player"
+                    select="com.xzit.mapper.PlayerMapper.selectByTid">
+        </collection>
+    </resultMap>
+    <select id="selectList" resultMap="z">
+        select * from team
+    </select>
+</mapper>
